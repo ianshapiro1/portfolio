@@ -1,26 +1,208 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000000;
+  --foreground: #ff8c00;
+  --orange-primary: #ff8c00;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-vt323), 'Courier New', 'Monaco', 'Menlo', monospace;
+  --font-mono: var(--font-vt323), 'Courier New', 'Monaco', 'Menlo', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #000000;
+    --foreground: #ff8c00;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-vt323), 'Courier New', 'Monaco', 'Menlo', monospace;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* mobile overflow */
+@media (max-width: 1023px) {
+  body {
+    overflow-y: auto;
+  }
+}
+
+/* desktop overflow */
+@media (min-width: 1024px) {
+  body {
+    overflow-y: auto;
+  }
+}
+
+/* scan lines */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(
+      transparent 50%,
+      rgba(255, 140, 0, 0.03) 50%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 50%,
+      rgba(255, 140, 0, 0.01) 50%
+    );
+  background-size: 100% 4px, 4px 100%;
+  pointer-events: none;
+  z-index: 1000;
+  animation: scanlines 0.1s linear infinite;
+}
+
+/* CRT warp */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      rgba(0, 0, 0, 0.025) 40%,
+      rgba(0, 0, 0, 0.05) 60%,
+      rgba(0, 0, 0, 0.1) 80%,
+      rgba(0, 0, 0, 0.15) 100%
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      rgba(255, 140, 0, 0.01) 30%,
+      rgba(255, 140, 0, 0.02) 60%,
+      rgba(255, 140, 0, 0.01) 80%
+    );
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* scan lines */
+@keyframes scanlines {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(4px);
+  }
+}
+
+/* cursor blink */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s infinite;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff8c00;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ffa500;
+}
+
+/* VT323 font */
+.font-vt323 {
+  font-family: var(--font-vt323), 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+/* text glow */
+.text-glow {
+  text-shadow: 
+    0 0 6px rgba(255, 140, 0, 0.6),
+    0 0 12px rgba(255, 140, 0, 0.4),
+    0 0 18px rgba(255, 140, 0, 0.2);
+}
+
+/* CRT style borders */
+.crt-curve {
+  box-shadow: 
+    inset 0 0 20px rgba(255, 140, 0, 0.1),
+    0 0 20px rgba(255, 140, 0, 0.1),
+    0 0 40px rgba(255, 140, 0, 0.05);
+  position: relative;
+}
+
+/* button hover translate effect */
+.retro-hover:hover {
+  text-shadow: 
+    0 0 8px rgba(255, 140, 0, 1.08),
+    0 0 15px rgba(255, 140, 0, 0.72),
+    0 0 20px rgba(255, 140, 0, 0.48);
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+/* CRT noise */
+@keyframes noise {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.02; }
+}
+
+.crt-noise::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 140, 0, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(255, 140, 0, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: noise 0.1s infinite;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+/* responsiveness for mobile */
+@media (max-width: 640px) {
+  .text-glow {
+    text-shadow: 
+      0 0 3px rgba(255, 140, 0, 0.72),
+      0 0 6px rgba(255, 140, 0, 0.48),
+      0 0 9px rgba(255, 140, 0, 0.24);
+  }
+  
+  .crt-curve {
+    box-shadow: 
+      inset 0 0 10px rgba(255, 140, 0, 0.1),
+      0 0 10px rgba(255, 140, 0, 0.1),
+      0 0 20px rgba(255, 140, 0, 0.05);
+  }
 }
