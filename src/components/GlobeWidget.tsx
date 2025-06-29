@@ -24,13 +24,11 @@ const mockIPData: IPDataPoint[] = [
   { lat: 0.0, lng: 0.0, ip: "", city: "", country: "", message: "███████ :: --- UNKNOWN VECTOR ---" },
   { lat: -23.5505, lng: -46.6333, ip: "192.0.2.0", city: "São Paulo", country: "Brazil", message: "KR00K :: WPA2 traffic decrypted" },
   { lat: 52.3676, lng: 4.9041, ip: "122.33.33.221", city: "Amsterdam", country: "Netherlands", message: "HEARTBLEED :: malformed ping memory read" },
-  { lat: 38.9072, lng: -77.0369, ip: "66.6.6.6", city: "Washington D.C.", country: "USA", message: "RFC3514 :: evil bit set, payload allowed" },
   { lat: 37.7749, lng: -122.4194, ip: "192.168.0.222", city: "San Francisco", country: "USA", message: "COMMIT :: AWS creds pushed to origin" },
   { lat: 19.4326, lng: -99.1332, ip: "169.254.169.254", city: "Mexico City", country: "Mexico", message: "SSRF :: IMDSv1 leak through URL param" },
   { lat: 34.0522, lng: -118.2437, ip: "100.13.37.42", city: "Los Angeles", country: "USA", message: "REVSHELL :: remote nc bind on :1337" },
   { lat: 43.6532, lng: -79.3832, ip: "4.2.2.2", city: "Toronto", country: "Canada", message: "MAC SPOOF :: vendor ID mismatch detected" },
   { lat: 39.0438, lng: -77.4874, ip: "3.6.9.2", city: "Maryland", country: "USA", message: "QUANTUMINSERT :: RST injected mid-handshake" },
-  { lat: 39.9042, lng: 116.4074, ip: "114.114.114.114", city: "Beijing", country: "China", message: "C2 :: beacon every 300s via DNS TXT" },
   { lat: 37.5665, lng: 126.9780, ip: "111.90.159.50", city: "Seoul", country: "South Korea", message: "DESERIALIZE :: object bleed in RPC payload" },
 ];
 
@@ -40,6 +38,7 @@ export default function GlobeWidget() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [currentMessage, setCurrentMessage] = useState(mockIPData[0]);
+  const [messageTimestamp, setMessageTimestamp] = useState('');
 
   useEffect(() => {
     const mountElement = mountRef.current;
@@ -51,10 +50,6 @@ export default function GlobeWidget() {
       .showGraticules(true)
       .showAtmosphere(false);
 
-    // set up scene
-    const scene = new THREE.Scene();
-    scene.add(globe);
-
     // set up camera
     const camera = new THREE.PerspectiveCamera(
       60,
@@ -62,8 +57,22 @@ export default function GlobeWidget() {
       0.1,
       1000
     );
-    camera.position.z = 300;
+    camera.position.z = 290;
+    camera.lookAt(0, 0, 0);
 
+    // set up scene
+    const scene = new THREE.Scene();
+    
+    // create a wrapper for easier globe rotation
+    const globeGroup = new THREE.Group();
+    globeGroup.add(globe);
+    scene.add(globeGroup);
+    
+    // globe tilt
+    globeGroup.rotation.y = THREE.MathUtils.degToRad(-50);
+    globeGroup.rotation.z = THREE.MathUtils.degToRad(-23);
+
+    
     // set up renderer
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true,
@@ -98,6 +107,11 @@ export default function GlobeWidget() {
 
     globeRef.current = globe;
     
+    // timestamp for first message
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    setMessageTimestamp(timeString);
+    
     // animation loop
     const animate = () => {
       requestAnimationFrame(animate);
@@ -105,7 +119,7 @@ export default function GlobeWidget() {
       tbControls.update();
       
       if (globeRef.current && !isUserInteracting) {
-        globeRef.current.rotation.y += 0.001;
+        globeRef.current.rotation.y += 0.0015;
       }
       
       renderer.render(scene, camera);
@@ -125,8 +139,8 @@ export default function GlobeWidget() {
       .then(countries => {
         globe
           .polygonsData(countries.features.filter((d: any) => d.properties.ISO_A2 !== 'AQ'))
-          .polygonSideColor(() => 'rgba(251, 146, 60, 0.7)')
-          .polygonCapColor(() => 'rgba(251, 146, 60, 0.5)')
+          .polygonSideColor(() => 'rgba(255, 140, 0, .5)')
+          .polygonCapColor(() => 'rgba(255, 140, 0, 0.15)')
           .polygonStrokeColor(() => '#f97316');
         
         setIsLoading(false);
@@ -140,6 +154,12 @@ export default function GlobeWidget() {
       setCurrentMessageIndex(prev => {
         const nextIndex = (prev + 1) % mockIPData.length;
         setCurrentMessage(mockIPData[nextIndex]);
+        
+        // timestamp for new message
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        setMessageTimestamp(timeString);
+        
         return nextIndex;
       });
     }, 12000); // 12 seconds
@@ -161,17 +181,15 @@ export default function GlobeWidget() {
       const ringData = [{
         lat: currentMessage.lat,
         lng: currentMessage.lng,
-        maxR: 30,
-        propagationSpeed: 4,
-        repeatPeriod: 3000,
-        altitude: 0.05
+        maxR: 20,
+        propagationSpeed: 5,
+        repeatPeriod: 1500,
+        altitude: 0.04
       }];
-      
-      const colorInterpolator = (t: number) => `rgba(249, 115, 22, ${1-t})`;
       
       globeRef.current
         .ringsData(ringData)
-        .ringColor(() => colorInterpolator)
+        .ringColor(() => 'rgb(255, 106, 0)')
         .ringMaxRadius('maxR')
         .ringPropagationSpeed('propagationSpeed')
         .ringRepeatPeriod('repeatPeriod')
@@ -187,10 +205,10 @@ export default function GlobeWidget() {
           <div className="text-glow text-base">MONITOR :: INITIALIZING...</div>
         </div>
       )}
-      <div className="absolute top-1 left-1 text-glow text-2xl">MONITOR :: GEOIP FEED</div>
+      <div className="absolute top-1 left-1 text-glow text-2xl">MONITOR :: GEOIP_FEED.sim</div>
       <div className="absolute bottom-1 left-1 text-orange-400">
-        <div className="text-glow text-lg">{currentMessage.ip} ({currentMessage.country})</div>
-        <div className="text-glow text-lg">{currentMessage.message}</div>
+        <div className="text-glow text-lg">[{messageTimestamp}] {currentMessage.ip} ({currentMessage.city})</div>
+        <div className="text-glow text-lg">↳ {currentMessage.message}</div>
       </div>
     </div>
   );
