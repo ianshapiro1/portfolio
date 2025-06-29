@@ -4,6 +4,10 @@
   --background: #000000;
   --foreground: #ff8c00;
   --orange-primary: #ff8c00;
+  --desktop-side-margin: 4vw;
+  --desktop-top-bottom-margin: 4vh;
+  --desktop-border-width: 3px;
+  --desktop-container-height: calc(100vh - 8vh);
 }
 
 @theme inline {
@@ -190,19 +194,6 @@ body::after {
   z-index: 1001;
 }
 
-/* responsiveness for mobile */
+/* mobile specific adjustments */
 @media (max-width: 640px) {
-  .text-glow {
-    text-shadow: 
-      0 0 3px rgba(255, 140, 0, 0.72),
-      0 0 6px rgba(255, 140, 0, 0.48),
-      0 0 9px rgba(255, 140, 0, 0.24);
-  }
-  
-  .crt-curve {
-    box-shadow: 
-      inset 0 0 10px rgba(255, 140, 0, 0.1),
-      0 0 10px rgba(255, 140, 0, 0.1),
-      0 0 20px rgba(255, 140, 0, 0.05);
-  }
 }
