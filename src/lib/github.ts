@@ -18,82 +18,82 @@ export interface GitHubCommit {
 
 export async function getLatestCommit(username: string): Promise<GitHubCommit | null> {
   try {
-    // check for token
-    const token = process.env.GITHUB_TOKEN;
     const headers: Record<string, string> = {
       'Accept': 'application/vnd.github.v3+json',
-      'User-Agent': 'portfolio-app'
+      'User-Agent': 'ianshapiro1-portfolio'
     };
 
-    if (token) {
-      headers['Authorization'] = `token ${token}`;
-    }
-
-    // get user's public events
-    const eventsResponse = await fetch(
-      `https://api.github.com/users/${username}/events/public?per_page=10`,
+    // get user's repositories
+    const reposResponse = await fetch(
+      `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`,
       {
         headers,
-        next: { revalidate: 300 } // 5 minute cache
+        next: { revalidate: 60 } // 1 minute cache
       }
     );
 
-    if (!eventsResponse.ok) {
-      if (eventsResponse.status === 403) {
+    if (!reposResponse.ok) {
+      if (reposResponse.status === 403) {
         console.error('GitHub API rate limit exceeded');
         return null;
       }
-      console.error('Failed to fetch GitHub events:', eventsResponse.status);
+      console.error('Failed to fetch GitHub repositories:', reposResponse.status);
       return null;
     }
 
-    const events = await eventsResponse.json();
+    const repos = await reposResponse.json();
     
-    // find most recent push
-    const pushEvent = events.find((event: any) => event.type === 'PushEvent');
-    
-    if (!pushEvent) {
-      console.log('No recent push events found');
-      return null;
+    // get the most recent commit from any repository
+    let latestCommit: GitHubCommit | null = null;
+    let latestDate = new Date(0);
+
+    for (const repo of repos) {
+      try {
+        // get the latest commit for this repository
+        const commitsResponse = await fetch(
+          `https://api.github.com/repos/${repo.full_name}/commits?per_page=1`,
+          {
+            headers,
+            next: { revalidate: 60 } // 1 minute cache
+          }
+        );
+
+        if (commitsResponse.ok) {
+          const commits = await commitsResponse.json();
+          
+          if (commits.length > 0) {
+            const commit = commits[0];
+            const commitDate = new Date(commit.commit.author.date);
+            
+            if (commitDate > latestDate) {
+              latestDate = commitDate;
+              latestCommit = {
+                sha: commit.sha.substring(0, 7),
+                commit: {
+                  message: commit.commit.message.split('\n')[0],
+                  author: commit.commit.author
+                },
+                html_url: commit.html_url,
+                repository: {
+                  name: repo.name,
+                  full_name: repo.full_name,
+                  html_url: repo.html_url
+                }
+              };
+            }
+          }
+        }
+      } catch (error) {
+        console.error(`Error fetching commits for ${repo.full_name}:`, error);
+        continue;
+      }
     }
 
-    // get most recent commit from push event
-    const latestCommit = pushEvent.payload.commits?.[0];
-    
     if (!latestCommit) {
-      console.log('No commits found in push event');
-      return null;
+      console.log('Commit not found');
     }
 
-    // get commit information
-    const commitResponse = await fetch(
-      `https://api.github.com/repos/${pushEvent.repo.name}/commits/${latestCommit.sha}`,
-      {
-        headers,
-        next: { revalidate: 300 } // 5 minute cache
-      }
-    );
-
-    if (!commitResponse.ok) {
-      console.error('Failed to fetch commit details:', commitResponse.status);
-      return null;
-    }
-
-    const commitData = await commitResponse.json();
-    
-    return {
-      sha: commitData.sha.substring(0, 7), 
-      commit: {
-        message: commitData.commit.message.split('\n')[0],
-        author: commitData.commit.author
-      },
-      html_url: commitData.html_url,
-      repository: {
-        name: pushEvent.repo.name.split('/')[1],
-        full_name: pushEvent.repo.name,
-        html_url: `https://github.com/${pushEvent.repo.name}`
-      }
-    };
+    return latestCommit;
   } catch (error) {
     console.error('Error fetching latest commit:', error);
     return null;

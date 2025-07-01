@@ -1,8 +1,8 @@
 'use server';
 
-import { getLatestCommit } from '@/lib/github';
+import { getLatestCommit, GitHubCommit } from '@/lib/github';
 
-export async function fetchLatestCommit(username: string = 'ianshapiro1') {
+export async function fetchLatestCommit(username: string = 'ianshapiro1'): Promise<{ success: boolean; data?: GitHubCommit | null; error?: string }> {
   try {
     const commit = await getLatestCommit(username);
     return { success: true, data: commit };

@@ -1,5 +1,5 @@
 import Sidebar from "@/components/Sidebar";
-import InfoPanel from "@/components/InfoPanel";
+import LatestCommit from "@/components/LatestCommit";
 import Terminal from "@/components/Terminal";
 
 export default function Home() {
@@ -35,7 +35,7 @@ export default function Home() {
           <Terminal 
             username="ian@portfolio"
           />
-          <InfoPanel isMobile={true} />
+          <LatestCommit isMobile={true} />
         </div>
       </div>
     </div>

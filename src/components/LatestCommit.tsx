@@ -3,14 +3,14 @@
 import { useEffect, useState } from 'react';
 import { fetchLatestCommit } from '@/app/actions';
 import { GitHubCommit } from '@/lib/github';
+import { formatRelativeTime } from '@/lib/utils';
 
-interface InfoPanelProps {
+interface LatestCommitProps {
   isMobile?: boolean;
 }
 
-export default function InfoPanel({ isMobile = false }: InfoPanelProps) {
+export default function LatestCommit({ isMobile = false }: LatestCommitProps) {
   const textSize = isMobile ? "text-lg" : "text-2xl";
-  const linkSize = isMobile ? "text-base" : "text-lg";
   const commitSize = isMobile ? "text-base" : "text-lg";
   
   const [commit, setCommit] = useState<GitHubCommit | null>(null);
@@ -40,17 +40,7 @@ export default function InfoPanel({ isMobile = false }: InfoPanelProps) {
     loadCommit();
   }, []);
 
-  const formatDateTime = (dateString: string): string => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    
-    return `[${year}-${month}-${day} ${hours}:${minutes}:${seconds}]`;
-  };
+
 
   return (
     <div className={`space-y-3 ${isMobile ? 'lg:hidden' : 'hidden lg:block'}`}>
@@ -76,7 +66,7 @@ export default function InfoPanel({ isMobile = false }: InfoPanelProps) {
                 <span className="text-orange-400"> ❯ </span>
                 <span className="text-orange-500">{commit.repository.name}</span>
                 <span className="text-orange-400"> :: </span>
-                <span className="text-glow">{formatDateTime(commit.commit.author.date)}</span>
+                <span className="text-glow">[{formatRelativeTime(commit.commit.author.date)}]</span>
               </div>
               <div className="text-glow">{commit.commit.message}</div>
             </>

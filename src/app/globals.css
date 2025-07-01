@@ -133,24 +133,6 @@ body::after {
   animation: blink 1s infinite;
 }
 
-/* scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #000000;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #ff8c00;
-  border-radius: 0;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #ffa500;
-}
-
 /* VT323 font */
 .font-vt323 {
   font-family: var(--font-vt323), 'Courier New', 'Monaco', 'Menlo', monospace;
