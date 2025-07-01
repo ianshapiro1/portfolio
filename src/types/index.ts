@@ -2,6 +2,7 @@ export interface Project {
   name: string;
   description: string;
   path: string;
+  link?: string;
 }
 
 export interface SystemInfo {

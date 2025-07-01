@@ -54,29 +54,6 @@ export default function InfoPanel({ isMobile = false }: InfoPanelProps) {
 
   return (
     <div className={`space-y-3 ${isMobile ? 'lg:hidden' : 'hidden lg:block'}`}>
-      {/* important links */}
-      <div className="border border-orange-500 p-3 crt-curve flex flex-col gap-2">
-        <div className={`text-orange-500 text-glow ${textSize}`}>IMPORTANT LINKS</div>
-        <div className="space-y-1">
-          <a 
-            href="https://github.com/ianshapiro1" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className={`text-orange-400 hover:text-orange-300 underline text-glow transition-colors duration-200 retro-hover ${linkSize} block`}
-          >
-            GitHub
-          </a>
-          <a 
-            href="https://sultai.itch.io/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className={`text-orange-400 hover:text-orange-300 underline text-glow transition-colors duration-200 retro-hover ${linkSize} block`}
-          >
-            itch.io
-          </a>
-        </div>
-      </div>
-
       {/* latest git commit */}
       <div className="border border-orange-500 p-3 crt-curve flex flex-col gap-2">
         <div className={`text-orange-500 text-glow ${textSize}`}>LATEST COMMIT</div>
@@ -92,7 +69,7 @@ export default function InfoPanel({ isMobile = false }: InfoPanelProps) {
                   href={commit.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-orange-400 hover:text-orange-300 underline text-glow transition-colors duration-200 retro-hover"
+                  className="text-orange-400 hover:text-orange-300 underline text-glow transition-colors duration-200 text-glow-more"
                 >
                   {commit.sha}
                 </a>

@@ -205,10 +205,10 @@ export default function GlobeWidget() {
           <div className="text-glow text-base">MONITOR :: INITIALIZING...</div>
         </div>
       )}
-      <div className="absolute top-1 left-1 text-glow text-2xl">MONITOR :: GEOIP_FEED.sim</div>
-      <div className="absolute bottom-1 left-1 text-orange-400">
-        <div className="text-glow text-lg">[{messageTimestamp}] {currentMessage.ip} ({currentMessage.city})</div>
-        <div className="text-glow text-lg">↳ {currentMessage.message}</div>
+      <div className="absolute top-1 left-1 text-orange-400 text-glow text-2xl">MONITOR :: GEOIP_FEED.sim</div>
+      <div className="absolute bottom-1 left-1">
+        <div className="text-glow text-lg text-orange-400">[{messageTimestamp}] {currentMessage.ip} ({currentMessage.city})</div>
+        <div className="text-glow text-lg text-orange-500">↳ {currentMessage.message}</div>
       </div>
     </div>
   );
