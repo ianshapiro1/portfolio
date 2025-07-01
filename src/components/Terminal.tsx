@@ -100,7 +100,7 @@ export default function Terminal({ username }: TerminalProps) {
       </div>
       
       <div className="text-orange-400 font-vt323 space-y-2 max-w-[800px]">
-        <div className="text-glow text-lg lg:text-2xl">Hi! I'm Ian Shapiro, a full stack developer and security engineer.</div>
+        <div className="text-glow text-lg lg:text-2xl">Hi! I&apos;m Ian Shapiro, a full stack developer and security engineer.</div>
         <div className="text-glow text-lg lg:text-2xl">My love of coding started in high school, where I learned python with <a href="https://www.oreilly.com/library/view/learning-python-5th/9781449355722/" target="_blank" rel="noopener noreferrer" className="underline text-orange-400 hover:text-orange-300 transition-colors duration-200 text-glow-more">this book.</a></div>
         <div className="text-glow text-lg lg:text-2xl">I graduated from the University of Memphis in 2025 with a degree in Computer Science and a minor in Cybersecurity.</div> 
         <div className="text-glow text-lg lg:text-2xl">My job throughout college was at a website maintenance company, migrating and securing legacy websites and databases.</div> 
@@ -128,7 +128,7 @@ export default function Terminal({ username }: TerminalProps) {
             rel="noopener noreferrer" 
             className="block text-orange-400 hover:text-orange-300 transition-colors duration-200"
           >
-            <span className="text-orange-500">❯</span> <span className="text-glow-more">GitHub</span>
+            <span className="text-orange-500">{'>>'}</span> <span className="text-glow-more">GitHub</span>
           </a>
         </div>
         <div className="text-glow text-lg lg:text-2xl retro-hover">
@@ -138,7 +138,7 @@ export default function Terminal({ username }: TerminalProps) {
             rel="noopener noreferrer" 
             className="block text-orange-400 hover:text-orange-300 transition-colors duration-200"
           >
-            <span className="text-orange-500">❯</span> <span className="text-glow-more">itch.io</span>
+            <span className="text-orange-500">{'>>'}</span> <span className="text-glow-more">itch.io</span>
           </a>
         </div>
         <div className="text-glow text-lg lg:text-2xl retro-hover">
@@ -148,7 +148,7 @@ export default function Terminal({ username }: TerminalProps) {
             rel="noopener noreferrer" 
             className="block text-orange-400 hover:text-orange-300 transition-colors duration-200"
           >
-            <span className="text-orange-500">❯</span> <span className="text-glow-more">LinkedIn</span>
+            <span className="text-orange-500">{'>>'}</span> <span className="text-glow-more">LinkedIn</span>
           </a>
         </div>
       </div>
@@ -195,7 +195,7 @@ export default function Terminal({ username }: TerminalProps) {
       </div>
 
       {/* body */}
-      <div className="p-3 crt-curve h-full overflow-y-auto min-h-0">
+      <div className="p-3 h-full overflow-y-auto min-h-0">
         {activeTab === "projects" && renderProjectsContent()}
         {activeTab === "about" && renderAboutContent()}
         {activeTab === "links" && renderLinksContent()}

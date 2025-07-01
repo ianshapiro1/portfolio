@@ -45,7 +45,7 @@ export default function LatestCommit({ isMobile = false }: LatestCommitProps) {
   return (
     <div className={`space-y-3 ${isMobile ? 'lg:hidden' : 'hidden lg:block'}`}>
       {/* latest git commit */}
-      <div className="border border-orange-500 p-3 crt-curve flex flex-col gap-2">
+      <div className="border-t border-b border-orange-500 p-3 flex flex-col gap-2">
         <div className={`text-orange-500 text-glow ${textSize}`}>LATEST COMMIT</div>
         <div className={`text-orange-400 ${commitSize}`}>
           {loading ? (
@@ -63,10 +63,9 @@ export default function LatestCommit({ isMobile = false }: LatestCommitProps) {
                 >
                   {commit.sha}
                 </a>
-                <span className="text-orange-400"> ❯ </span>
-                <span className="text-orange-500">{commit.repository.name}</span>
                 <span className="text-orange-400"> :: </span>
-                <span className="text-glow">[{formatRelativeTime(commit.commit.author.date)}]</span>
+                <span className="text-orange-500">{commit.repository.name}</span>
+                <span className="text-glow"> [{formatRelativeTime(commit.commit.author.date)}]</span>
               </div>
               <div className="text-glow">{commit.commit.message}</div>
             </>
