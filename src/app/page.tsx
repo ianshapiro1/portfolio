@@ -1,5 +1,8 @@
-import Sidebar from "@/components/Sidebar";
+import LeftBar from "@/components/LeftBar";
+import RightBar from "@/components/RightBar";
 import LatestCommit from "@/components/LatestCommit";
+import CodeMetrics from "@/components/CodeMetrics";
+import Languages from "@/components/Languages";
 import Terminal from "@/components/Terminal";
 
 export default function Home() {
@@ -19,12 +22,15 @@ export default function Home() {
       >
         <div className="h-full grid grid-cols-12 gap-3 flex-1 min-h-0">
           <div className="col-span-3 min-h-0">
-            <Sidebar />
+            <LeftBar />
           </div>
-          <div className="col-span-9 min-h-0">
+          <div className="col-span-7 min-h-0">
             <Terminal 
               username="ian@portfolio"
             />
+          </div>
+          <div className="col-span-2 min-h-0">
+            <RightBar />
           </div>
         </div>
       </div>
@@ -35,6 +41,8 @@ export default function Home() {
           <Terminal 
             username="ian@portfolio"
           />
+          <CodeMetrics isMobile={true} />
+          <Languages isMobile={true} />
           <LatestCommit isMobile={true} />
         </div>
       </div>

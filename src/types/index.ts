@@ -5,19 +5,11 @@ export interface Project {
   link?: string;
 }
 
-export interface SystemInfo {
-  cpu: number;
-  memory: number;
-  network: number;
+export interface LocationData {
+  lat: number;
+  lng: number;
+  city: string;
+  state: string;
+  country: string;
+  timezone: string;
 }
-
-export interface GitCommit {
-  message: string;
-  hash: string;
-  timeAgo: string;
-}
-
-export interface SSHInfo {
-  connected: string;
-  session: string;
-} 
