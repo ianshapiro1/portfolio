@@ -172,6 +172,37 @@ export default function GlobeWidget() {
     }
   }, [isLoading]);
 
+  // listen for theme changes & update globe colors
+  useEffect(() => {
+    const updateGlobeColors = () => {
+      if (globeRef.current) {
+        globeRef.current
+          .polygonSideColor(() => getComputedStyle(document.documentElement).getPropertyValue('--color-globe-polygon-side').trim())
+          .polygonCapColor(() => getComputedStyle(document.documentElement).getPropertyValue('--color-globe-polygon-cap').trim())
+          .polygonStrokeColor(() => getComputedStyle(document.documentElement).getPropertyValue('--color-globe-polygon-stroke').trim());
+        
+        globeRef.current
+          .ringColor(() => getComputedStyle(document.documentElement).getPropertyValue('--color-globe-ring').trim());
+      }
+    };
+
+    // custom event listener for theme changes
+    const handleThemeChange = () => {
+      setTimeout(updateGlobeColors, 10);
+    };
+
+    // listen for CSS variable changes
+    const observer = new MutationObserver(handleThemeChange);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['style']
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <div className="w-full h-full relative">
       <div ref={mountRef} className="w-full h-full" />

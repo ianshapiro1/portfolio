@@ -3,38 +3,38 @@
 /* +++++ COLOR SYSTEM +++++ */
 :root {
   /* main colors */
-  --color-primary: #10b981;
-  --color-primary-light: #34d399;
-  --color-primary-lighter: #6ee7b7;
+  --color-primary: #ffb000;
+  --color-primary-light: #ffc233;
+  --color-primary-lighter: #ffd466;
   
   /* background colors */
   --color-bg: #000000;
-  --color-bg-overlay: rgba(16, 185, 129, 0.04);
+  --color-bg-overlay: rgba(255, 176, 0, 0.04);
   
   /* effect colors */
-  --color-glow-light: rgba(16, 185, 129, 0.2);
-  --color-glow-medium: rgba(16, 185, 129, 0.4);
-  --color-glow-strong: rgba(16, 185, 129, 0.6);
-  --color-glow-intense: rgba(16, 185, 129, 0.8);
-  --color-glow-full: rgba(16, 185, 129, 1.0);
+  --color-glow-light: rgba(255, 176, 0, 0.2);
+  --color-glow-medium: rgba(255, 176, 0, 0.4);
+  --color-glow-strong: rgba(255, 176, 0, 0.6);
+  --color-glow-intense: rgba(255, 176, 0, 0.8);
+  --color-glow-full: rgba(255, 176, 0, 1.0);
   
   /* scan line colors */
-  --color-scan-vertical: rgba(16, 185, 129, 0.03);
-  --color-scan-horizontal: rgba(16, 185, 129, 0.01);
+  --color-scan-vertical: rgba(255, 176, 0, 0.03);
+  --color-scan-horizontal: rgba(255, 176, 0, 0.01);
   
-  /* CRT effects */
-  --color-crt-border: rgba(16, 185, 129, 0.1);
-  --color-crt-shadow: rgba(16, 185, 129, 0.05);
-  --color-crt-warp-light: rgba(16, 185, 129, 0.01);
-  --color-crt-warp-medium: rgba(16, 185, 129, 0.02);
-  --color-crt-noise: rgba(16, 185, 129, 0.1);
+  /* CRT effect colors */
+  --color-crt-border: rgba(255, 176, 0, 0.1);
+  --color-crt-shadow: rgba(255, 176, 0, 0.05);
+  --color-crt-warp-light: rgba(255, 176, 0, 0.01);
+  --color-crt-warp-medium: rgba(255, 176, 0, 0.02);
+  --color-crt-noise: rgba(255, 176, 0, 0.1);
   
-  /* component specific */
-  --color-tab-active-bg: rgba(16, 185, 129, 0.1);
-  --color-globe-polygon-side: rgba(16, 185, 129, 0.5);
-  --color-globe-polygon-cap: rgba(16, 185, 129, 0.15);
-  --color-globe-polygon-stroke: #10b981;
-  --color-globe-ring: rgb(16, 185, 129);
+  /* component specific colors */
+  --color-tab-active-bg: rgba(255, 176, 0, 0.1);
+  --color-globe-polygon-side: rgba(255, 176, 0, 0.5);
+  --color-globe-polygon-cap: rgba(255, 176, 0, 0.15);
+  --color-globe-polygon-stroke: #ffb000;
+  --color-globe-ring: rgb(255, 176, 0);
   
   /* layout */
   --desktop-side-margin: 4vw;
@@ -56,7 +56,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-bg: #000000;
-    --color-primary: #10b981;
+    --color-primary: #ffb000;
   }
 }
 
