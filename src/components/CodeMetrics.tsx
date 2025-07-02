@@ -45,7 +45,7 @@ export default function CodeMetrics({ isMobile = false }: CodeMetricsProps) {
     
     return (
       <div className="space-y-1">
-        <div className="text-lg text-orange-400 text-glow">
+        <div className="text-lg text-primary-400 text-glow">
           COMMITS (30 DAYS): {metrics.commitsOverTime.reduce((sum, d) => sum + d.count, 0)}
         </div>
         <div className="flex items-end space-x-0.5 h-8 lg:h-10">
@@ -54,10 +54,10 @@ export default function CodeMetrics({ isMobile = false }: CodeMetricsProps) {
             return (
               <div
                 key={index}
-                className="flex-1 bg-orange-500 rounded-sm transition-all duration-500"
+                className="flex-1 bg-primary-500 rounded-sm transition-all duration-500"
                 style={{ 
                   height: `${Math.max(height, 1)}px`,
-                  boxShadow: '0 0 6px rgba(249, 115, 22, 0.6)'
+                  boxShadow: '0 0 6px var(--color-glow-strong)'
                 }}
               />
             );
@@ -73,22 +73,22 @@ export default function CodeMetrics({ isMobile = false }: CodeMetricsProps) {
     return (
       <div className="grid grid-cols-2 gap-2 text-lg">
         <div className="flex">
-          <span className="text-orange-500 text-glow">{metrics.totalCommits.toLocaleString()}</span>
-          <span className="text-orange-400 text-glow ml-2"> TOTAL COMMITS</span>
+          <span className="text-primary-500 text-glow">{metrics.totalCommits.toLocaleString()}</span>
+          <span className="text-primary-400 text-glow ml-2"> TOTAL COMMITS</span>
         </div>
         <div className="flex">
-          <span className="text-orange-500 text-glow">{metrics.totalRepos}</span>
-          <span className="text-orange-400 text-glow ml-2"> REPOSITORIES</span>
+          <span className="text-primary-500 text-glow">{metrics.totalRepos}</span>
+          <span className="text-primary-400 text-glow ml-2"> REPOSITORIES</span>
         </div>
         <div className="flex">
-          <span className="text-orange-500 text-glow">{metrics.languages.length}</span>
-          <span className="text-orange-400 text-glow ml-2"> LANGUAGES</span>
+          <span className="text-primary-500 text-glow">{metrics.languages.length}</span>
+          <span className="text-primary-400 text-glow ml-2"> LANGUAGES</span>
         </div>
         <div className="flex">
-          <span className="text-orange-500 text-glow">
+          <span className="text-primary-500 text-glow">
             {metrics.commitsOverTime.filter(d => d.count > 0).length}
           </span>
-          <span className="text-orange-400 text-glow ml-2"> ACTIVE DAYS</span>
+          <span className="text-primary-400 text-glow ml-2"> ACTIVE DAYS</span>
         </div>
       </div>
     );
@@ -96,12 +96,12 @@ export default function CodeMetrics({ isMobile = false }: CodeMetricsProps) {
 
   return (
     <div className={`space-y-3 ${isMobile ? 'lg:hidden' : 'hidden lg:block'}`}>
-      <div className="border-t border-b border-orange-500 p-3 flex flex-col gap-3">
-        <div className={`text-orange-500 text-glow ${isMobile ? 'text-lg' : 'text-2xl'}`}>
+      <div className="border-t border-b border-primary-500 p-3 flex flex-col gap-3">
+        <div className={`text-primary-500 text-glow ${isMobile ? 'text-lg' : 'text-2xl'}`}>
           CODE METRICS
         </div>
         
-        <div className="text-orange-400 text-sm space-y-3">
+        <div className="text-primary-400 text-sm space-y-3">
           {loading ? (
             <div className="text-glow">Loading metrics...</div>
           ) : error ? (

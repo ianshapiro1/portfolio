@@ -7,10 +7,10 @@ import Terminal from "@/components/Terminal";
 
 export default function Home() {
   return (
-    <div className="h-screen bg-black text-orange-500 font-vt323 crt-noise overflow-hidden">
+    <div className="h-screen bg-black text-primary-500 font-vt323 crt-noise overflow-hidden">
       {/* DESKTOP LAYOUT */}
       <div 
-        className="hidden lg:flex border-orange-500 p-4 crt-curve overflow-hidden"
+        className="hidden lg:flex border-primary-500 p-4 crt-curve overflow-hidden"
         style={{
           height: 'var(--desktop-container-height)',
           marginLeft: 'var(--desktop-side-margin)',

@@ -43,16 +43,16 @@ export default function Languages({ isMobile = false }: LanguagesProps) {
     return (
       <div className="space-y-2">
         {metrics.languages.slice(0, 6).map((lang) => (
-          <div key={lang.language} className="flex items-center justify-between text-xs">
-            <span className="text-orange-400 text-glow">{lang.language}</span>
+          <div key={lang.language} className="flex items-center justify-between text-lg">
+            <span className="text-primary-400 text-glow">{lang.language}</span>
             <div className="flex items-center space-x-2">
-              <div className="w-16 bg-gray-800 border border-gray-700 h-2 rounded-sm overflow-hidden">
+              <div className="w-16 border border-gray-700 h-2 rounded-sm overflow-hidden">
                 <div 
-                  className="h-full bg-orange-500 transition-all duration-1000 ease-out"
+                  className="h-full bg-primary-500 transition-all duration-1000 ease-out"
                   style={{ width: `${lang.percentage}%` }}
                 />
               </div>
-              <span className="text-orange-500 text-glow w-10 text-right">
+                              <span className="text-primary-500 text-glow w-10 text-right">
                 {Math.round(lang.percentage)}%
               </span>
             </div>
@@ -64,12 +64,12 @@ export default function Languages({ isMobile = false }: LanguagesProps) {
 
   return (
     <div className={`space-y-3 ${isMobile ? 'lg:hidden' : 'hidden lg:block'}`}>
-      <div className="border-t border-b border-orange-500 p-3 flex flex-col gap-3">
-        <div className={`text-orange-500 text-glow ${isMobile ? 'text-lg' : 'text-2xl'}`}>
+      <div className="border-t border-b border-primary-500 p-3 flex flex-col gap-3">
+        <div className={`text-primary-500 text-glow ${isMobile ? 'text-lg' : 'text-2xl'}`}>
           LANGUAGES
         </div>
         
-        <div className="text-orange-400 text-sm">
+        <div className="text-primary-400 text-lg">
           {loading ? (
             <div className="text-glow">Loading languages...</div>
           ) : error ? (

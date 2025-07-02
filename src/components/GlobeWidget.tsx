@@ -4,15 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import ThreeGlobe from 'three-globe';
 import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js';
-
-interface LocationData {
-  lat: number;
-  lng: number;
-  city: string;
-  state: string;
-  country: string;
-  timezone: string;
-}
+import { LocationData } from "@/types";
 
 const locationData: LocationData = {
   lat: 35.1495,
@@ -129,9 +121,9 @@ export default function GlobeWidget() {
       .then(countries => {
         globe
           .polygonsData(countries.features.filter((d: { properties: { ISO_A2: string } }) => d.properties.ISO_A2 !== 'AQ'))
-          .polygonSideColor(() => 'rgba(255, 140, 0, .5)')
-          .polygonCapColor(() => 'rgba(255, 140, 0, 0.15)')
-          .polygonStrokeColor(() => '#f97316');
+          .polygonSideColor(() => getComputedStyle(document.documentElement).getPropertyValue('--color-globe-polygon-side').trim())
+          .polygonCapColor(() => getComputedStyle(document.documentElement).getPropertyValue('--color-globe-polygon-cap').trim())
+          .polygonStrokeColor(() => getComputedStyle(document.documentElement).getPropertyValue('--color-globe-polygon-stroke').trim());
         
         setIsLoading(false);
       })
@@ -172,7 +164,7 @@ export default function GlobeWidget() {
       
       globeRef.current
         .ringsData(ringData)
-        .ringColor(() => 'rgb(249, 115, 22)')
+        .ringColor(() => getComputedStyle(document.documentElement).getPropertyValue('--color-globe-ring').trim())
         .ringMaxRadius('maxR')
         .ringPropagationSpeed('propagationSpeed')
         .ringRepeatPeriod('repeatPeriod')
@@ -184,13 +176,13 @@ export default function GlobeWidget() {
     <div className="w-full h-full relative">
       <div ref={mountRef} className="w-full h-full" />
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center text-orange-400">
+        <div className="absolute inset-0 flex items-center justify-center text-primary-400">
           <div className="text-glow text-base">MONITOR :: INITIALIZING...</div>
         </div>
       )}
-      <div className="absolute top-3 left-3 text-orange-500 text-glow text-2xl">LOCATION</div>
+      <div className="absolute top-3 left-3 text-primary-500 text-glow text-2xl">LOCATION</div>
       <div className="absolute bottom-3 left-3 max-w-full">
-        <div className="text-glow text-lg text-orange-400 break-words">TERM-1 {locationData.city.toUpperCase()} {locationData.state} [{currentTime} {locationData.timezone}]</div>
+        <div className="text-glow text-lg text-primary-400 break-words">TERM-1 {locationData.city.toUpperCase()} {locationData.state} [{currentTime} {locationData.timezone}]</div>
       </div>
     </div>
   );

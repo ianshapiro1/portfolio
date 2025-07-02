@@ -45,9 +45,9 @@ export default function LatestCommit({ isMobile = false }: LatestCommitProps) {
   return (
     <div className={`space-y-3 ${isMobile ? 'lg:hidden' : 'hidden lg:block'}`}>
       {/* latest git commit */}
-      <div className="border-t border-b border-orange-500 p-3 flex flex-col gap-2">
-        <div className={`text-orange-500 text-glow ${textSize}`}>LATEST COMMIT</div>
-        <div className={`text-orange-400 ${commitSize}`}>
+              <div className="border-t border-b border-primary-500 p-3 flex flex-col gap-2">
+          <div className={`text-primary-500 text-glow ${textSize}`}>LATEST COMMIT</div>
+          <div className={`text-primary-400 ${commitSize}`}>
           {loading ? (
             <div className="text-glow">Loading...</div>
           ) : error ? (
@@ -59,12 +59,12 @@ export default function LatestCommit({ isMobile = false }: LatestCommitProps) {
                   href={commit.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-orange-400 hover:text-orange-300 underline text-glow transition-colors duration-200 text-glow-more"
+                  className="text-primary-400 hover:text-primary-300 underline text-glow transition-colors duration-200 text-glow-more"
                 >
                   {commit.sha}
                 </a>
-                <span className="text-orange-400"> :: </span>
-                <span className="text-orange-500">{commit.repository.name}</span>
+                <span className="text-primary-400"> :: </span>
+                <span className="text-primary-500">{commit.repository.name}</span>
                 <span className="text-glow"> [{formatRelativeTime(commit.commit.author.date)}]</span>
               </div>
               <div className="text-glow">{commit.commit.message}</div>
