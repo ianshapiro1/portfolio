@@ -62,7 +62,7 @@ export default function Terminal({ username }: TerminalProps) {
   const renderProjectsContent = () => (
     <>
       <div className="text-primary-500 mb-4">
-        <span className="text-primary-400 text-glow text-lg lg:text-2xl">[TERM-1] IAN :: TREE PROJECTS.TXT</span>
+        <span className="text-primary-400 text-glow text-lg lg:text-2xl">[TERM-1] IAN :: TREE PROJECTS/</span>
       </div>
       
       <div className="text-primary-400 font-vt323">
