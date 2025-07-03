@@ -7,10 +7,10 @@ interface TerminalProps {
   username: string;
 }
 
-type TabType = "projects" | "about" | "links";
+type TabType = "welcome" | "projects" | "about" | "links";
 
 export default function Terminal({ username }: TerminalProps) {
-  const [activeTab, setActiveTab] = useState<TabType>("projects");
+  const [activeTab, setActiveTab] = useState<TabType>("welcome");
 
   const projects: Project[] = [
     {
@@ -33,15 +33,36 @@ export default function Terminal({ username }: TerminalProps) {
     }
   ];
 
+  {/* WELCOME TAB */}
+  const renderWelcomeContent = () => (
+    <>
+      <div className="text-primary-500 mb-4">
+        <span className="text-primary-400 text-glow text-lg lg:text-2xl">[TERM-1] IAN :: TYPE WELCOME.TXT</span>
+      </div>
+      
+      <div className="text-primary-400 font-vt323 text-center">
+        <pre className="text-glow text-[10px] lg:text-base leading-tight">
+{`
+   ____            ______             _        
+  /  _/__ ____    / __/ /  ___ ____  (_)______ 
+ _/ // _ \`/ _ \\  _\\ \\/ _ \\/ _ \`/ _ \\/ / __/ _ \\
+/___/\\_,_/_//_/ /___/_//_/\\_,_/ .__/_/_/  \\___/
+                             /_/               
+`}
+        </pre>
+        <div className="mt-6 text-primary-400 text-glow text-lg lg:text-xl">
+          <div className="mb-2">:: PORTFOLIO v1.0 ::</div>
+          <div className="text-sm lg:text-base opacity-80">Select a tab to begin exploring...</div>
+        </div>
+      </div>
+    </>
+  );
+
   {/* PROJECTS TAB */}
   const renderProjectsContent = () => (
     <>
       <div className="text-primary-500 mb-4">
-        <span className="text-primary-400 text-glow text-lg lg:text-2xl">{username}</span>
-        <span className="text-primary-500 text-glow text-lg lg:text-2xl">:</span>
-        <span className="text-primary-400 text-glow text-lg lg:text-2xl">~</span>
-        <span className="text-primary-500 text-glow text-lg lg:text-2xl">$</span>
-        <span className="text-primary-400 ml-2 text-glow text-lg lg:text-2xl">tree projects/</span>
+        <span className="text-primary-400 text-glow text-lg lg:text-2xl">[TERM-1] IAN :: TREE PROJECTS.TXT</span>
       </div>
       
       <div className="text-primary-400 font-vt323">
@@ -92,19 +113,15 @@ export default function Terminal({ username }: TerminalProps) {
   const renderAboutContent = () => (
     <>
       <div className="text-primary-500 mb-4">
-        <span className="text-primary-400 text-glow text-lg lg:text-2xl">{username}</span>
-        <span className="text-primary-500 text-glow text-lg lg:text-2xl">:</span>
-        <span className="text-primary-400 text-glow text-lg lg:text-2xl">~</span>
-        <span className="text-primary-500 text-glow text-lg lg:text-2xl">$</span>
-        <span className="text-primary-400 ml-2 text-glow text-lg lg:text-2xl">cat about.txt</span>
+        <span className="text-primary-400 text-glow text-lg lg:text-2xl">[TERM-1] IAN :: TYPE ABOUT.TXT</span>
       </div>
       
       <div className="text-primary-400 font-vt323 space-y-2 max-w-[800px]">
-        <div className="text-glow text-lg lg:text-2xl">Hi! I&apos;m Ian Shapiro, a full stack developer and security engineer.</div>
-        <div className="text-glow text-lg lg:text-2xl">My love of coding started in high school, where I learned python with <a href="https://www.oreilly.com/library/view/learning-python-5th/9781449355722/" target="_blank" rel="noopener noreferrer" className="underline text-primary-400 hover:text-primary-300 transition-colors duration-200 text-glow-more">this book.</a></div>
-        <div className="text-glow text-lg lg:text-2xl">I graduated from the University of Memphis in 2025 with a degree in Computer Science and a minor in Cybersecurity.</div> 
-        <div className="text-glow text-lg lg:text-2xl">My job throughout college was at a website maintenance company, migrating and securing legacy websites and databases.</div> 
-        <div className="text-glow text-lg lg:text-2xl">My recent studies include <a href="https://www.credly.com/badges/aef2592b-05c4-4927-8218-7664abca7120/public_url" target="_blank" rel="noopener noreferrer" className="underline text-primary-400 hover:text-primary-300 transition-colors duration-200 text-glow-more">AWS</a>, AI architectures, and web security.</div>
+        <div className="text-glow text-lg lg:text-2xl">IAN SHAPIRO :: full stack dev & security engineer </div>
+        <div className="text-glow text-lg lg:text-2xl">{'>>'} builds niche, (sometimes) clever tools for fun and focus</div>
+        <div className="text-glow text-lg lg:text-2xl">{'>>'} passionate about terminals, security, and data processing</div>
+        <div className="text-glow text-lg lg:text-2xl">{'>>'} fluent in JS, TS, Python, Linux, and Docker</div>
+        <div className="text-glow text-lg lg:text-2xl">{'>>'} CS major, Cybersecurity minor, <a href="https://www.credly.com/badges/aef2592b-05c4-4927-8218-7664abca7120/public_url" target="_blank" rel="noopener noreferrer" className="underline text-primary-400 hover:text-primary-300 transition-colors duration-200 text-glow-more">AWS certified</a></div>  
       </div>
     </>
   );
@@ -113,11 +130,7 @@ export default function Terminal({ username }: TerminalProps) {
   const renderLinksContent = () => (
     <>
       <div className="text-primary-500 mb-4">
-        <span className="text-primary-400 text-glow text-lg lg:text-2xl">{username}</span>
-        <span className="text-primary-500 text-glow text-lg lg:text-2xl">:</span>
-        <span className="text-primary-400 text-glow text-lg lg:text-2xl">~</span>
-        <span className="text-primary-500 text-glow text-lg lg:text-2xl">$</span>
-        <span className="text-primary-400 ml-2 text-glow text-lg lg:text-2xl">cat links.txt</span>
+        <span className="text-primary-400 text-glow text-lg lg:text-2xl">[TERM-1] IAN :: TYPE LINKS.TXT</span>
       </div>
       
       <div className="text-primary-400 font-vt323 space-y-2">
@@ -133,22 +146,32 @@ export default function Terminal({ username }: TerminalProps) {
         </div>
         <div className="text-glow text-lg lg:text-2xl retro-hover">
           <a 
-            href="https://sultai.itch.io/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="block text-primary-400 hover:text-primary-300 transition-colors duration-200"
-          >
-            <span className="text-primary-500">{'>>'}</span> <span className="text-glow-more">itch.io</span>
-          </a>
-        </div>
-        <div className="text-glow text-lg lg:text-2xl retro-hover">
-          <a 
             href="https://www.linkedin.com/in/ian-shapiro-dev/" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="block text-primary-400 hover:text-primary-300 transition-colors duration-200"
           >
             <span className="text-primary-500">{'>>'}</span> <span className="text-glow-more">LinkedIn</span>
+          </a>
+        </div>
+        <div className="text-glow text-lg lg:text-2xl retro-hover">
+          <a 
+            href="mailto:ianshapiro1@gmail.com" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="block text-primary-400 hover:text-primary-300 transition-colors duration-200"
+          >
+            <span className="text-primary-500">{'>>'}</span> <span className="text-glow-more">Email</span>
+          </a>
+        </div>
+        <div className="text-glow text-lg lg:text-2xl retro-hover">
+          <a 
+            href="https://sultai.itch.io/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="block text-primary-400 hover:text-primary-300 transition-colors duration-200"
+          >
+            <span className="text-primary-500">{'>>'}</span> <span className="text-glow-more">itch.io</span>
           </a>
         </div>
       </div>
@@ -162,6 +185,17 @@ export default function Terminal({ username }: TerminalProps) {
       <div className="bg-black border-b border-primary-500">
         <div className="flex">
           <button
+            onClick={() => setActiveTab("welcome")}
+            className={`flex-1 px-3 py-1 text-base lg:text-lg transition-colors duration-200 border-r border-primary-500 ${
+              activeTab === "welcome"
+                ? "text-primary-400 text-glow border-primary-400"
+                : "text-primary-500 hover:text-primary-300 text-glow text-glow-more"
+            }`}
+            style={activeTab === "welcome" ? { backgroundColor: 'var(--color-tab-active-bg)' } : {}}
+          >
+            WELCOME
+          </button>
+          <button
             onClick={() => setActiveTab("projects")}
             className={`flex-1 px-3 py-1 text-base lg:text-lg transition-colors duration-200 border-r border-primary-500 ${
               activeTab === "projects"
@@ -170,7 +204,7 @@ export default function Terminal({ username }: TerminalProps) {
             }`}
             style={activeTab === "projects" ? { backgroundColor: 'var(--color-tab-active-bg)' } : {}}
           >
-            projects
+            PROJECTS
           </button>
           <button
             onClick={() => setActiveTab("about")}
@@ -181,7 +215,7 @@ export default function Terminal({ username }: TerminalProps) {
             }`}
             style={activeTab === "about" ? { backgroundColor: 'var(--color-tab-active-bg)' } : {}}
           >
-            about
+            ABOUT
           </button>
           <button
             onClick={() => setActiveTab("links")}
@@ -192,23 +226,21 @@ export default function Terminal({ username }: TerminalProps) {
             }`}
             style={activeTab === "links" ? { backgroundColor: 'var(--color-tab-active-bg)' } : {}}
           >
-            links
+            LINKS
           </button>
         </div>
       </div>
 
       {/* body */}
       <div className="p-3 h-full overflow-y-auto min-h-0">
+        {activeTab === "welcome" && renderWelcomeContent()}
         {activeTab === "projects" && renderProjectsContent()}
         {activeTab === "about" && renderAboutContent()}
         {activeTab === "links" && renderLinksContent()}
 
         <div className="mt-4 text-primary-500">
-          <span className="text-primary-400 text-glow text-lg lg:text-2xl">{username}</span>
-          <span className="text-primary-500 text-glow text-lg lg:text-2xl">:</span>
-          <span className="text-primary-400 text-glow text-lg lg:text-2xl">~</span>
-          <span className="text-primary-500 text-glow text-lg lg:text-2xl">$</span>
-          <span className="text-primary-400 ml-2 cursor-blink text-glow text-lg lg:text-2xl">_</span>
+          <span className="text-primary-400 text-glow text-lg lg:text-2xl">[TERM-1] IAN :: </span>
+          <span className="text-primary-400 cursor-blink text-glow text-lg lg:text-2xl">_</span>
         </div>
       </div>
     </div>
