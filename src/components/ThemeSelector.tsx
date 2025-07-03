@@ -208,41 +208,46 @@ export default function ThemeSelector() {
   };
 
   return (
-    <div className="relative flex justify-end">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 text-primary-400 text-glow transition-colors duration-200"
-      >
-        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }}></div>
-        <svg 
-          className={`w-3 h-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
-      
-      {isOpen && (
-        <div className="absolute top-full right-0 mt-1 w-32 bg-black border border-primary-500 z-50">
-          {themes.map((theme) => (
-            <button
-              key={theme.name}
-              onClick={() => applyTheme(theme)}
-              className={`w-full flex items-center justify-center px-2 py-2 hover:bg-primary-300 hover:bg-opacity-10 transition-colors duration-200 ${
-                currentTheme === theme.name ? 'bg-primary-300 bg-opacity-10' : ''
-              }`}
-              title={theme.name}
-            >
-              <div 
-                className="w-4 h-4 rounded-full" 
-                style={{ backgroundColor: theme.primary }}
-              ></div>
-            </button>
-          ))}
-        </div>
-      )}
+    <div className="border-t border-b border-primary-500 p-3">
+      <div className="relative">
+                  <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="w-full flex items-center justify-between px-3 py-2 bg-black text-primary-400 text-glow hover:bg-primary-lighter hover:bg-opacity-20 transition-colors duration-200"
+          >
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-primary)' }}></div>
+              <span className="text-lg">{currentTheme}</span>
+            </div>
+          <svg 
+            className={`w-3 h-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        
+        {isOpen && (
+          <div className="absolute top-full left-0 right-0 mt-1 bg-black border border-primary-500 z-50">
+            {themes.map((theme) => (
+                              <button
+                  key={theme.name}
+                  onClick={() => applyTheme(theme)}
+                  className={`w-full flex items-center gap-2 px-3 py-2 hover:bg-primary-lighter hover:bg-opacity-20 transition-colors duration-200 ${
+                    currentTheme === theme.name ? 'bg-primary-lighter bg-opacity-30' : ''
+                  }`}
+                >
+                  <div 
+                    className="w-3 h-3 rounded-full" 
+                    style={{ backgroundColor: theme.primary }}
+                  ></div>
+                  <span className="text-lg text-primary-400 text-glow">{theme.name}</span>
+                </button>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 } 

@@ -1,7 +1,7 @@
 import LeftBar from "@/components/LeftBar";
 import RightBar from "@/components/RightBar";
 import LatestCommit from "@/components/LatestCommit";
-import CodeMetrics from "@/components/CodeMetrics";
+import ActivityChart from "@/components/ActivityChart";
 import Languages from "@/components/Languages";
 import Terminal from "@/components/Terminal";
 
@@ -41,7 +41,7 @@ export default function Home() {
           <Terminal 
             username="ian@portfolio"
           />
-          <CodeMetrics isMobile={true} />
+          <ActivityChart isMobile={true} />
           <Languages isMobile={true} />
           <LatestCommit isMobile={true} />
         </div>

@@ -29,121 +29,22 @@ export interface CodeMetrics {
   commitsOverTime: { date: string; count: number }[];
 }
 
-{/* LATEST COMMIT */}
-// cache for latest commit
-const commitCache = new Map<string, { data: GitHubCommit; timestamp: number }>();
-const COMMIT_CACHE_DURATION = 2 * 60 * 1000; // 2 minutes
-
-export async function getLatestCommit(username: string): Promise<GitHubCommit | null> {
-  // check cache first
-  const cacheKey = `commit_${username}`;
-  const cached = commitCache.get(cacheKey);
-  if (cached && Date.now() - cached.timestamp < COMMIT_CACHE_DURATION) {
-    console.log('Using cached commit data');
-    return cached.data;
-  }
-
-  try {
-    const headers: Record<string, string> = {
-      'Accept': 'application/vnd.github.v3+json',
-      'User-Agent': 'ianshapiro1-portfolio'
-    };
-
-    // get user's repositories
-    const reposResponse = await fetch(
-      `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`,
-      {
-        headers,
-        next: { revalidate: 60 } // 1 minute cache
-      }
-    );
-
-    if (!reposResponse.ok) {
-      if (reposResponse.status === 403) {
-        console.error('GitHub API rate limit exceeded');
-        return null;
-      }
-      console.error('Failed to fetch GitHub repositories:', reposResponse.status);
-      return null;
-    }
-
-    const repos = await reposResponse.json();
-    
-    // get the most recent commit from any repository
-    let latestCommit: GitHubCommit | null = null;
-    let latestDate = new Date(0);
-
-    for (const repo of repos) {
-      try {
-        // get the latest commit for this repository
-        const commitsResponse = await fetch(
-          `https://api.github.com/repos/${repo.full_name}/commits?per_page=1`,
-          {
-            headers,
-            next: { revalidate: 60 } // 1 minute cache
-          }
-        );
-
-        if (commitsResponse.ok) {
-          const commits = await commitsResponse.json();
-          
-          if (commits.length > 0) {
-            const commit = commits[0];
-            const commitDate = new Date(commit.commit.author.date);
-            
-            if (commitDate > latestDate) {
-              latestDate = commitDate;
-              latestCommit = {
-                sha: commit.sha.substring(0, 7),
-                commit: {
-                  message: commit.commit.message.split('\n')[0],
-                  author: commit.commit.author
-                },
-                html_url: commit.html_url,
-                repository: {
-                  name: repo.name,
-                  full_name: repo.full_name,
-                  html_url: repo.html_url
-                }
-              };
-            }
-          }
-        }
-      } catch (error) {
-        console.error(`Error fetching commits for ${repo.full_name}:`, error);
-        continue;
-      }
-    }
-
-    if (!latestCommit) {
-      console.log('Commit not found');
-    }
-
-    // cache the result if we found one
-    if (latestCommit) {
-      commitCache.set(cacheKey, { data: latestCommit, timestamp: Date.now() });
-      console.log('Cached commit data');
-    }
-
-    return latestCommit;
-  } catch (error) {
-    console.error('Error fetching latest commit:', error);
-    return null;
-  }
+export interface GitHubData {
+  latestCommit: GitHubCommit | null;
+  metrics: CodeMetrics;
 }
 
+// cache for all github data
+const githubDataCache = new Map<string, { data: GitHubData; timestamp: number }>();
+const GITHUB_CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
-{/* CODE METRICS */}
-// cache for metrics
-const metricsCache = new Map<string, { data: CodeMetrics; timestamp: number }>();
-const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
-
-export async function getCodeMetrics(username: string): Promise<CodeMetrics | null> {
+// fetch github data
+export async function getGitHubData(username: string): Promise<GitHubData | null> {
   // check cache first
-  const cacheKey = `metrics_${username}`;
-  const cached = metricsCache.get(cacheKey);
-  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-    console.log('Using cached metrics data');
+  const cacheKey = `github_data_${username}`;
+  const cached = githubDataCache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < GITHUB_CACHE_DURATION) {
+    console.log('Using cached GitHub data');
     return cached.data;
   }
 
@@ -173,28 +74,30 @@ export async function getCodeMetrics(username: string): Promise<CodeMetrics | nu
 
     const repos = await reposResponse.json();
     
-    // get language stats
     const languageMap = new Map<string, number>();
     let totalCommits = 0;
     const commitsOverTime: { date: string; count: number }[] = [];
+    let latestCommit: GitHubCommit | null = null;
+    let latestDate = new Date(0);
     
     // initialize last 30 days
     const today = new Date();
     for (let i = 29; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
+
+      // local date format
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
       commitsOverTime.push({
-        date: date.toISOString().split('T')[0],
+        date: `${year}-${month}-${day}`,
         count: 0
       });
     }
 
-    // process repositories
-    const processedRepos = Math.min(repos.length, 30);
-    
-    for (let i = 0; i < processedRepos; i++) {
-      const repo = repos[i];
-      
+    // Process repositories
+    for (const repo of repos) {
       try {
         // get language stats
         const languagesResponse = await fetch(
@@ -214,8 +117,9 @@ export async function getCodeMetrics(username: string): Promise<CodeMetrics | nu
           }
         }
 
+        // get commits for total count, timeline, and latest commit
         const commitsResponse = await fetch(
-          `https://api.github.com/repos/${repo.full_name}/commits?per_page=100`, //need to get more commits figure this out
+          `https://api.github.com/repos/${repo.full_name}/commits?per_page=100`,
           {
             headers,
             next: { revalidate: 300 }
@@ -224,25 +128,35 @@ export async function getCodeMetrics(username: string): Promise<CodeMetrics | nu
 
         if (commitsResponse.ok) {
           const commits = await commitsResponse.json();
-          // add commits found
           totalCommits += commits.length;
-        }
-
-        // get recent commits for timeline (maybe change this to use the commitsResponse)
-        const recentCommitsResponse = await fetch(
-          `https://api.github.com/repos/${repo.full_name}/commits?per_page=30`,
-          {
-            headers,
-            next: { revalidate: 300 }
-          }
-        );
-
-        if (recentCommitsResponse.ok) {
-          const recentCommits = await recentCommitsResponse.json();
           
-          for (const commit of recentCommits) {
+          // process commits for timeline and find latest commit
+          for (const commit of commits) {
             const commitDate = new Date(commit.commit.author.date);
-            const dateString = commitDate.toISOString().split('T')[0];
+            
+            // find latest commit
+            if (commitDate > latestDate) {
+              latestDate = commitDate;
+              latestCommit = {
+                sha: commit.sha.substring(0, 7),
+                commit: {
+                  message: commit.commit.message.split('\n')[0],
+                  author: commit.commit.author
+                },
+                html_url: commit.html_url,
+                repository: {
+                  name: repo.name,
+                  full_name: repo.full_name,
+                  html_url: repo.html_url
+                }
+              };
+            }
+            
+            // use local date format to match contribution graph
+            const year = commitDate.getFullYear();
+            const month = String(commitDate.getMonth() + 1).padStart(2, '0');
+            const day = String(commitDate.getDate()).padStart(2, '0');
+            const dateString = `${year}-${month}-${day}`;
             
             const timeIndex = commitsOverTime.findIndex(d => d.date === dateString);
             if (timeIndex !== -1) {
@@ -267,20 +181,35 @@ export async function getCodeMetrics(username: string): Promise<CodeMetrics | nu
       .sort((a, b) => b.percentage - a.percentage)
       .slice(0, 8);
 
-    const result = {
+    const metrics: CodeMetrics = {
       totalCommits,
-      totalRepos: processedRepos,
+      totalRepos: repos.length,
       languages,
       commitsOverTime
     };
 
+    const result: GitHubData = {
+      latestCommit,
+      metrics
+    };
+
     // cache result
-    metricsCache.set(cacheKey, { data: result, timestamp: Date.now() });
-    console.log('Cached metrics data');
+    githubDataCache.set(cacheKey, { data: result, timestamp: Date.now() });
+    console.log('Cached GitHub data');
 
     return result;
   } catch (error) {
-    console.error('Error fetching code metrics:', error);
+    console.error('Error fetching GitHub data:', error);
     return null;
   }
+}
+
+export async function getLatestCommit(username: string): Promise<GitHubCommit | null> {
+  const data = await getGitHubData(username);
+  return data?.latestCommit || null;
+}
+
+export async function getCodeMetrics(username: string): Promise<CodeMetrics | null> {
+  const data = await getGitHubData(username);
+  return data?.metrics || null;
 }

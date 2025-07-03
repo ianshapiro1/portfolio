@@ -1,6 +1,7 @@
 'use client';
 
 import Languages from "./Languages";
+import CodeMetrics from "./CodeMetrics";
 import ThemeSelector from "./ThemeSelector";
 
 export default function RightBar() {
@@ -10,6 +11,7 @@ export default function RightBar() {
         <div className="space-y-3 pointer-events-auto">
           <ThemeSelector />
           <Languages isMobile={false} />
+          <CodeMetrics isMobile={false} />
         </div>
       </div>
     </div>

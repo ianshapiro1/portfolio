@@ -8,6 +8,46 @@ interface LanguagesProps {
   isMobile?: boolean;
 }
 
+function TerminalLanguageChart({ data }: { data: Array<{ language: string; percentage: number }> }) {
+  const totalPercentage = data.reduce((sum, item) => sum + item.percentage, 0);
+  
+  return (
+    <div className="space-y-2">
+      <div className="space-y-1">
+        {data.slice(0, 5).map((item, index) => {
+          const barWidth = Math.max(5, (item.percentage / Math.max(...data.map(d => d.percentage))) * 50);
+          
+          return (
+            <div key={item.language} className="flex items-center space-x-2 text-lg">
+              <span className="text-primary-400 text-glow w-8 text-right">
+                {Math.round(item.percentage)}%
+              </span>
+              <div className="flex-1 relative">
+                <div className="h-3 bg-black">
+                  <div 
+                    className="h-full bg-primary-500 transition-all duration-1000 ease-out relative overflow-hidden"
+                    style={{ 
+                      width: `${barWidth}%`,
+                      boxShadow: '0 0 6px var(--color-glow-strong)'
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-30 animate-pulse"></div>
+                  </div>
+                </div>
+              </div>
+              <span className="text-primary-400 text-glow w-20 truncate text-right">
+                {item.language}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+      
+
+    </div>
+  );
+}
+
 export default function Languages({ isMobile = false }: LanguagesProps) {
   const [metrics, setMetrics] = useState<CodeMetricsType | null>(null);
   const [loading, setLoading] = useState(true);
@@ -40,36 +80,17 @@ export default function Languages({ isMobile = false }: LanguagesProps) {
   const renderLanguages = () => {
     if (!metrics?.languages) return null;
     
-    return (
-      <div className="space-y-2">
-        {metrics.languages.slice(0, 6).map((lang) => (
-          <div key={lang.language} className="flex items-center justify-between text-lg">
-            <span className="text-primary-400 text-glow">{lang.language}</span>
-            <div className="flex items-center space-x-2">
-              <div className="w-16 border border-gray-700 h-2 rounded-sm overflow-hidden">
-                <div 
-                  className="h-full bg-primary-500 transition-all duration-1000 ease-out"
-                  style={{ width: `${lang.percentage}%` }}
-                />
-              </div>
-                              <span className="text-primary-500 text-glow w-10 text-right">
-                {Math.round(lang.percentage)}%
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
+    return <TerminalLanguageChart data={metrics.languages} />;
   };
 
   return (
     <div className={`space-y-3 ${isMobile ? 'lg:hidden' : 'hidden lg:block'}`}>
       <div className="border-t border-b border-primary-500 p-3 flex flex-col gap-3">
         <div className={`text-primary-500 text-glow ${isMobile ? 'text-lg' : 'text-2xl'}`}>
-          LANGUAGES
+          TOP LANGUAGES
         </div>
         
-        <div className="text-primary-400 text-lg">
+        <div className="text-primary-400 text-lg -ml-3">
           {loading ? (
             <div className="text-glow">Loading languages...</div>
           ) : error ? (

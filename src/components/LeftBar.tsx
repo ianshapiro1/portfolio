@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import LatestCommit from "./LatestCommit";
-import CodeMetrics from "./CodeMetrics";
+import ActivityChart from "./ActivityChart";
 const GlobeWidget = dynamic(() => import("./GlobeWidget"), { ssr: false });
 
 export default function LeftBar() {
@@ -16,7 +16,7 @@ export default function LeftBar() {
             </div>
           </div>
 
-          <CodeMetrics isMobile={false} />
+          <ActivityChart isMobile={false} />
           <LatestCommit isMobile={false} />
         </div>
       </div>
