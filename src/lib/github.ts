@@ -36,7 +36,7 @@ export interface GitHubData {
 
 // cache for all github data
 const githubDataCache = new Map<string, { data: GitHubData; timestamp: number }>();
-const GITHUB_CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
+const GITHUB_CACHE_DURATION = 3 * 60 * 1000; // 3 minutes
 
 // fetch github data
 export async function getGitHubData(username: string): Promise<GitHubData | null> {
@@ -53,6 +53,12 @@ export async function getGitHubData(username: string): Promise<GitHubData | null
       'Accept': 'application/vnd.github.v3+json',
       'User-Agent': 'ianshapiro1-portfolio'
     };
+
+    // github token
+    const githubToken = process.env.GITHUB_TOKEN;
+    if (githubToken) {
+      headers['Authorization'] = `token ${githubToken}`;
+    }
 
     // get repositories
     const reposResponse = await fetch(
@@ -96,7 +102,13 @@ export async function getGitHubData(username: string): Promise<GitHubData | null
       });
     }
 
-    // Process repositories
+    // collect all commits from all repositories
+    const allCommits: Array<{
+      commit: any;
+      repo: any;
+    }> = [];
+
+    // look through repositories
     for (const repo of repos) {
       try {
         // get language stats
@@ -130,43 +142,46 @@ export async function getGitHubData(username: string): Promise<GitHubData | null
           const commits = await commitsResponse.json();
           totalCommits += commits.length;
           
-          // process commits for timeline and find latest commit
+          // collect all commits for later processing
           for (const commit of commits) {
-            const commitDate = new Date(commit.commit.author.date);
-            
-            // find latest commit
-            if (commitDate > latestDate) {
-              latestDate = commitDate;
-              latestCommit = {
-                sha: commit.sha.substring(0, 7),
-                commit: {
-                  message: commit.commit.message.split('\n')[0],
-                  author: commit.commit.author
-                },
-                html_url: commit.html_url,
-                repository: {
-                  name: repo.name,
-                  full_name: repo.full_name,
-                  html_url: repo.html_url
-                }
-              };
-            }
-            
-            // use local date format to match contribution graph
-            const year = commitDate.getFullYear();
-            const month = String(commitDate.getMonth() + 1).padStart(2, '0');
-            const day = String(commitDate.getDate()).padStart(2, '0');
-            const dateString = `${year}-${month}-${day}`;
-            
-            const timeIndex = commitsOverTime.findIndex(d => d.date === dateString);
-            if (timeIndex !== -1) {
-              commitsOverTime[timeIndex].count++;
-            }
+            allCommits.push({ commit, repo });
           }
         }
       } catch (error) {
         console.error(`Error processing ${repo.full_name}:`, error);
         continue;
+      }
+    }
+
+    // process all commits to find the latest
+    for (const { commit, repo } of allCommits) {
+      const commitDate = new Date(commit.commit.author.date);  
+      if (commitDate > latestDate) {
+        latestDate = commitDate;
+        latestCommit = {
+          sha: commit.sha.substring(0, 7),
+          commit: {
+            message: commit.commit.message.split('\n')[0],
+            author: commit.commit.author
+          },
+          html_url: commit.html_url,
+          repository: {
+            name: repo.name,
+            full_name: repo.full_name,
+            html_url: repo.html_url
+          }
+        };
+      }
+      
+      // use local date format to match contribution graph
+      const year = commitDate.getFullYear();
+      const month = String(commitDate.getMonth() + 1).padStart(2, '0');
+      const day = String(commitDate.getDate()).padStart(2, '0');
+      const dateString = `${year}-${month}-${day}`;
+      
+      const timeIndex = commitsOverTime.findIndex(d => d.date === dateString);
+      if (timeIndex !== -1) {
+        commitsOverTime[timeIndex].count++;
       }
     }
 
@@ -195,7 +210,7 @@ export async function getGitHubData(username: string): Promise<GitHubData | null
 
     // cache result
     githubDataCache.set(cacheKey, { data: result, timestamp: Date.now() });
-    console.log('Cached GitHub data');
+    console.log(`Cached GitHub data for ${username} (${repos.length} repos, ${totalCommits} commits)`);
 
     return result;
   } catch (error) {

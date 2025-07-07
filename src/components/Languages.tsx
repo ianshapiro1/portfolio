@@ -9,12 +9,10 @@ interface LanguagesProps {
 }
 
 function TerminalLanguageChart({ data }: { data: Array<{ language: string; percentage: number }> }) {
-  const totalPercentage = data.reduce((sum, item) => sum + item.percentage, 0);
-  
   return (
     <div className="space-y-2">
       <div className="space-y-1">
-        {data.slice(0, 5).map((item, index) => {
+        {data.slice(0, 5).map((item) => {
           const barWidth = Math.max(5, (item.percentage / Math.max(...data.map(d => d.percentage))) * 50);
           
           return (

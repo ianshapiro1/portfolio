@@ -9,7 +9,7 @@ interface TerminalProps {
 
 type TabType = "welcome" | "projects" | "about" | "links";
 
-export default function Terminal({ username }: TerminalProps) {
+export default function Terminal({}: TerminalProps) {
   const [activeTab, setActiveTab] = useState<TabType>("welcome");
 
   const projects: Project[] = [
