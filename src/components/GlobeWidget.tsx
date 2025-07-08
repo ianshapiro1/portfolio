@@ -124,7 +124,7 @@ export default function GlobeWidget() {
     window.addEventListener('resize', handleResize);
 
     // load countries and configure rings
-    fetch('/ne_110m_admin_0_countries.geojson')
+    fetch('/countries.geojson')
       .then(res => res.json())
       .then(countries => {
         globe

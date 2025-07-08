@@ -54,10 +54,9 @@ export default function ActivityChart({ isMobile = false }: ActivityChartProps) 
             return (
               <div
                 key={index}
-                className="flex-1 bg-primary-500 transition-all duration-500"
+                className="flex-1 bg-primary-500 transition-all duration-500 chart-glow"
                 style={{ 
-                  height: `${Math.max(height, 1)}px`,
-                  boxShadow: '0 0 6px var(--color-glow-strong)'
+                  height: `${Math.max(height, 1)}px`
                 }}
               />
             );

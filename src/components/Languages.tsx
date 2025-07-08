@@ -23,10 +23,9 @@ function TerminalLanguageChart({ data }: { data: Array<{ language: string; perce
               <div className="flex-1 relative">
                 <div className="h-3 bg-black">
                   <div 
-                    className="h-full bg-primary-500 transition-all duration-1000 ease-out relative overflow-hidden"
+                    className="h-full bg-primary-500 transition-all duration-1000 ease-out relative overflow-hidden chart-glow"
                     style={{ 
-                      width: `${barWidth}%`,
-                      boxShadow: '0 0 6px var(--color-glow-strong)'
+                      width: `${barWidth}%`
                     }}
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-30 animate-pulse"></div>

@@ -7,7 +7,7 @@ import Terminal from "@/components/Terminal";
 
 export default function Home() {
   return (
-    <div className="h-screen bg-black text-primary-500 font-vt323 crt-noise overflow-hidden">
+    <div className="h-screen text-primary-500 font-vt323 crt-noise overflow-hidden">
       {/* DESKTOP LAYOUT */}
       <div 
         className="hidden lg:flex border-primary-500 p-4 crt-curve overflow-hidden"

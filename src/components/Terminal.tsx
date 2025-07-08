@@ -45,11 +45,15 @@ export default function Terminal({}: TerminalProps) {
         <span className="text-primary-400 text-glow text-lg lg:text-2xl">[TERM-1] IAN :: TYPE ABOUT.TXT</span>
       </div>
       
-      <div className="text-primary-400 font-vt323 space-y-2 max-w-[800px]">
-        <div className="text-glow text-lg lg:text-2xl">IAN SHAPIRO :: DEVELOPER</div>
-        <div className="text-glow text-lg lg:text-2xl">{'>>'} creator of niche things that serve no real purpose</div>
-        <div className="text-glow text-lg lg:text-2xl">{'>>'} rapid prototyping with AI tools because why not</div>
-        <div className="text-glow text-lg lg:text-2xl">{'>>'} CS grad, Cybersec minor, CTF enjoyer</div>
+      <div className="text-primary-400 font-vt323 max-w-[800px]">
+        <div className="text-glow text-lg lg:text-2xl mb-4">IAN SHAPIRO :: DEVELOPER</div>
+        <p className="text-glow text-lg lg:text-2xl leading-relaxed">
+          I'm a Computer Science grad and perpetual student exploring the intersection of AI and security.
+          I've built a zero knowledge app and some niche Python projects for fun and learning.
+          Currently, I'm focusing on AI architectures and security models with a project-based mindset.
+          When I'm not building, you'll find me participating in CTFs or itch.io game jams.
+        </p>
+        <div className="text-glow text-lg lg:text-2xl mt-3">Feel free to explore my links to see what I'm up to!</div>
       </div>
     </>
   );
