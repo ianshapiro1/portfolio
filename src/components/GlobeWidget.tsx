@@ -4,7 +4,15 @@ import { useEffect, useRef, useState } from 'react';
 import ThreeGlobe from 'three-globe';
 import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js';
-import { LocationData } from "@/types";
+
+interface LocationData {
+  lat: number;
+  lng: number;
+  city: string;
+  state: string;
+  country: string;
+  timezone: string;
+}
 
 const locationData: LocationData = {
   lat: 35.1495,

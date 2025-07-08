@@ -1,37 +1,17 @@
 "use client";
 
-import { Project } from "@/types";
+
 import { useState } from "react";
 
 interface TerminalProps {
   username: string;
 }
 
-type TabType = "welcome" | "projects" | "about" | "links";
+type TabType = "welcome" | "about" | "links";
 
 export default function Terminal({}: TerminalProps) {
   const [activeTab, setActiveTab] = useState<TabType>("welcome");
 
-  const projects: Project[] = [
-    {
-      name: "shoutbin",
-      description: "Privacy pastebin app",
-      path: "~/projects/shoutbin",
-      link: "https://github.com/ianshapiro1/shoutbin"
-    },
-    {
-      name: "cursetype",
-      description: "TUI typing game",
-      path: "~/projects/cursetype",
-      link: "https://github.com/ianshapiro1/cursetype"
-    },
-    {
-      name: "oscv",
-      description: "Linux terminal oscilloscope visualizer",
-      path: "~/projects/oscv",
-      link: "https://github.com/ianshapiro1/oscv"
-    }
-  ];
 
   {/* WELCOME TAB */}
   const renderWelcomeContent = () => (
@@ -58,57 +38,6 @@ export default function Terminal({}: TerminalProps) {
     </>
   );
 
-  {/* PROJECTS TAB */}
-  const renderProjectsContent = () => (
-    <>
-      <div className="text-primary-500 mb-4">
-        <span className="text-primary-400 text-glow text-lg lg:text-2xl">[TERM-1] IAN :: TREE PROJECTS/</span>
-      </div>
-      
-      <div className="text-primary-400 font-vt323">
-        <div className="mb-2 text-glow text-lg lg:text-2xl">projects/</div>
-        <div className="ml-4 space-y-1">
-          {projects.map((project) => (
-            project.link ? (
-              <a 
-                key={project.name}
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block group cursor-pointer retro-hover"
-              >
-                <div className="flex items-center space-x-2">
-                  <span className="text-primary-500 text-glow text-lg lg:text-2xl">├──</span>
-                  <span className="text-primary-400 text-glow text-lg lg:text-2xl group-hover:text-primary-300 text-glow-more">{project.name}/</span>
-                  <span className="text-primary-500 opacity-0 group-hover:opacity-100 transition-opacity text-glow text-base lg:text-lg">
-                    {project.description}
-                  </span>
-                </div>
-                <div className="ml-4 text-primary-500 text-glow text-base lg:text-lg">
-                  {project.path}
-                </div>
-              </a>
-            ) : (
-              <div key={project.name} className="group cursor-pointer retro-hover">
-                <div className="flex items-center space-x-2">
-                  <span className="text-primary-500 text-glow text-lg lg:text-2xl">├──</span>
-                  <span className="text-primary-400 text-glow text-lg lg:text-2xl group-hover:text-primary-300 text-glow-more">{project.name}/</span>
-                  <span className="text-primary-500 opacity-0 group-hover:opacity-100 transition-opacity text-glow text-base lg:text-lg">
-                    {project.description}
-                  </span>
-                </div>
-                <div className="ml-4 text-primary-500 text-glow text-base lg:text-2xl">
-                  {project.path}
-                </div>
-              </div>
-            )
-          ))}
-          <div className="text-primary-500 text-glow text-lg lg:text-2xl">└──</div>
-        </div>
-      </div>
-    </>
-  );
-
   {/* ABOUT TAB */}
   const renderAboutContent = () => (
     <>
@@ -117,11 +46,10 @@ export default function Terminal({}: TerminalProps) {
       </div>
       
       <div className="text-primary-400 font-vt323 space-y-2 max-w-[800px]">
-        <div className="text-glow text-lg lg:text-2xl">IAN SHAPIRO :: full stack dev & security engineer </div>
-        <div className="text-glow text-lg lg:text-2xl">{'>>'} builds niche, (sometimes) clever tools for fun and focus</div>
-        <div className="text-glow text-lg lg:text-2xl">{'>>'} passionate about terminals, security, and data processing</div>
-        <div className="text-glow text-lg lg:text-2xl">{'>>'} fluent in JS, TS, Python, Linux, and Docker</div>
-        <div className="text-glow text-lg lg:text-2xl">{'>>'} CS major, Cybersecurity minor, <a href="https://www.credly.com/badges/aef2592b-05c4-4927-8218-7664abca7120/public_url" target="_blank" rel="noopener noreferrer" className="underline text-primary-400 hover:text-primary-300 transition-colors duration-200 text-glow-more">AWS certified</a></div>  
+        <div className="text-glow text-lg lg:text-2xl">IAN SHAPIRO :: DEVELOPER</div>
+        <div className="text-glow text-lg lg:text-2xl">{'>>'} creator of niche things that serve no real purpose</div>
+        <div className="text-glow text-lg lg:text-2xl">{'>>'} rapid prototyping with AI tools because why not</div>
+        <div className="text-glow text-lg lg:text-2xl">{'>>'} CS grad, Cybersec minor, CTF enjoyer</div>
       </div>
     </>
   );
@@ -136,7 +64,7 @@ export default function Terminal({}: TerminalProps) {
       <div className="text-primary-400 font-vt323 space-y-2">
         <div className="text-glow text-lg lg:text-2xl retro-hover">
           <a 
-            href="https://github.com/ianshapiro1" 
+            href="https://github.com/romii0x" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="block text-primary-400 hover:text-primary-300 transition-colors duration-200"
@@ -166,7 +94,7 @@ export default function Terminal({}: TerminalProps) {
         </div>
         <div className="text-glow text-lg lg:text-2xl retro-hover">
           <a 
-            href="https://sultai.itch.io/" 
+            href="https://romii0x.itch.io/" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="block text-primary-400 hover:text-primary-300 transition-colors duration-200"
@@ -196,17 +124,6 @@ export default function Terminal({}: TerminalProps) {
             WELCOME
           </button>
           <button
-            onClick={() => setActiveTab("projects")}
-            className={`flex-1 px-3 py-1 text-base lg:text-lg transition-colors duration-200 border-r border-primary-500 ${
-              activeTab === "projects"
-                ? "text-primary-400 text-glow border-primary-400"
-                : "text-primary-500 hover:text-primary-300 text-glow text-glow-more"
-            }`}
-            style={activeTab === "projects" ? { backgroundColor: 'var(--color-tab-active-bg)' } : {}}
-          >
-            PROJECTS
-          </button>
-          <button
             onClick={() => setActiveTab("about")}
             className={`flex-1 px-3 py-1 text-base lg:text-lg transition-colors duration-200 border-r border-primary-500 ${
               activeTab === "about"
@@ -234,7 +151,6 @@ export default function Terminal({}: TerminalProps) {
       {/* body */}
       <div className="p-3 h-full overflow-y-auto min-h-0">
         {activeTab === "welcome" && renderWelcomeContent()}
-        {activeTab === "projects" && renderProjectsContent()}
         {activeTab === "about" && renderAboutContent()}
         {activeTab === "links" && renderLinksContent()}
 

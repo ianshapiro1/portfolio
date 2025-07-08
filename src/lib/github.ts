@@ -51,7 +51,7 @@ export async function getGitHubData(username: string): Promise<GitHubData | null
   try {
     const headers: Record<string, string> = {
       'Accept': 'application/vnd.github.v3+json',
-      'User-Agent': 'ianshapiro1-portfolio'
+      'User-Agent': 'romii0x-portfolio'
     };
 
     // github token

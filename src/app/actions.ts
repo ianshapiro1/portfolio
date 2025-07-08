@@ -2,7 +2,7 @@
 
 import { getLatestCommit, getCodeMetrics, GitHubCommit, CodeMetrics } from '@/lib/github';
 
-export async function fetchLatestCommit(username: string = 'ianshapiro1'): Promise<{ success: boolean; data?: GitHubCommit | null; error?: string }> {
+export async function fetchLatestCommit(username: string = 'romii0x'): Promise<{ success: boolean; data?: GitHubCommit | null; error?: string }> {
   try {
     const commit = await getLatestCommit(username);
     return { success: true, data: commit };
@@ -12,7 +12,7 @@ export async function fetchLatestCommit(username: string = 'ianshapiro1'): Promi
   }
 }
 
-export async function fetchCodeMetrics(username: string = 'ianshapiro1'): Promise<{ success: boolean; data?: CodeMetrics; error?: string }> {
+export async function fetchCodeMetrics(username: string = 'romii0x'): Promise<{ success: boolean; data?: CodeMetrics; error?: string }> {
   try {
     const metrics = await getCodeMetrics(username);
     
