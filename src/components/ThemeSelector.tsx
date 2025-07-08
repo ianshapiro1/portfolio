@@ -11,8 +11,6 @@ type Theme = {
   glowLight: string;
   glowMedium: string;
   glowStrong: string;
-  glowIntense: string;
-  glowFull: string;
   scanVertical: string;
   scanHorizontal: string;
   crtBorder: string;
@@ -37,8 +35,6 @@ const themes: Theme[] = [
     glowLight: 'rgba(255, 176, 0, 0.2)',
     glowMedium: 'rgba(255, 176, 0, 0.4)',
     glowStrong: 'rgba(255, 176, 0, 0.6)',
-    glowIntense: 'rgba(255, 176, 0, 0.8)',
-    glowFull: 'rgba(255, 176, 0, 1.0)',
     scanVertical: 'rgba(255, 176, 0, 0.03)',
     scanHorizontal: 'rgba(255, 176, 0, 0.01)',
     crtBorder: 'rgba(255, 176, 0, 0.1)',
@@ -61,8 +57,6 @@ const themes: Theme[] = [
     glowLight: 'rgba(0, 255, 0, 0.2)',
     glowMedium: 'rgba(0, 255, 0, 0.4)',
     glowStrong: 'rgba(0, 255, 0, 0.6)',
-    glowIntense: 'rgba(0, 255, 0, 0.8)',
-    glowFull: 'rgba(0, 255, 0, 1.0)',
     scanVertical: 'rgba(0, 255, 0, 0.03)',
     scanHorizontal: 'rgba(0, 255, 0, 0.01)',
     crtBorder: 'rgba(0, 255, 0, 0.1)',
@@ -85,8 +79,6 @@ const themes: Theme[] = [
     glowLight: 'rgba(255, 255, 255, 0.2)',
     glowMedium: 'rgba(255, 255, 255, 0.4)',
     glowStrong: 'rgba(255, 255, 255, 0.6)',
-    glowIntense: 'rgba(255, 255, 255, 0.8)',
-    glowFull: 'rgba(255, 255, 255, 1.0)',
     scanVertical: 'rgba(255, 255, 255, 0.03)',
     scanHorizontal: 'rgba(255, 255, 255, 0.01)',
     crtBorder: 'rgba(255, 255, 255, 0.1)',
@@ -109,8 +101,6 @@ const themes: Theme[] = [
     glowLight: 'rgba(249, 115, 22, 0.2)',
     glowMedium: 'rgba(249, 115, 22, 0.4)',
     glowStrong: 'rgba(249, 115, 22, 0.6)',
-    glowIntense: 'rgba(249, 115, 22, 0.8)',
-    glowFull: 'rgba(249, 115, 22, 1.0)',
     scanVertical: 'rgba(249, 115, 22, 0.03)',
     scanHorizontal: 'rgba(249, 115, 22, 0.01)',
     crtBorder: 'rgba(249, 115, 22, 0.1)',
@@ -133,8 +123,6 @@ const themes: Theme[] = [
     glowLight: 'rgba(14, 165, 233, 0.2)',
     glowMedium: 'rgba(14, 165, 233, 0.4)',
     glowStrong: 'rgba(14, 165, 233, 0.6)',
-    glowIntense: 'rgba(14, 165, 233, 0.8)',
-    glowFull: 'rgba(14, 165, 233, 1.0)',
     scanVertical: 'rgba(14, 165, 233, 0.03)',
     scanHorizontal: 'rgba(14, 165, 233, 0.01)',
     crtBorder: 'rgba(14, 165, 233, 0.1)',
@@ -157,8 +145,6 @@ const themes: Theme[] = [
     glowLight: 'rgba(139, 92, 246, 0.2)',
     glowMedium: 'rgba(139, 92, 246, 0.4)',
     glowStrong: 'rgba(139, 92, 246, 0.6)',
-    glowIntense: 'rgba(139, 92, 246, 0.8)',
-    glowFull: 'rgba(139, 92, 246, 1.0)',
     scanVertical: 'rgba(139, 92, 246, 0.03)',
     scanHorizontal: 'rgba(139, 92, 246, 0.01)',
     crtBorder: 'rgba(139, 92, 246, 0.1)',
@@ -188,8 +174,6 @@ export default function ThemeSelector() {
     root.style.setProperty('--color-glow-light', theme.glowLight);
     root.style.setProperty('--color-glow-medium', theme.glowMedium);
     root.style.setProperty('--color-glow-strong', theme.glowStrong);
-    root.style.setProperty('--color-glow-intense', theme.glowIntense);
-    root.style.setProperty('--color-glow-full', theme.glowFull);
     root.style.setProperty('--color-scan-vertical', theme.scanVertical);
     root.style.setProperty('--color-scan-horizontal', theme.scanHorizontal);
     root.style.setProperty('--color-crt-border', theme.crtBorder);
@@ -234,7 +218,7 @@ export default function ThemeSelector() {
                               <button
                   key={theme.name}
                   onClick={() => applyTheme(theme)}
-                  className={`w-full flex items-center gap-2 px-3 py-2 hover:bg-primary-lighter hover:bg-opacity-20 transition-colors duration-200 ${
+                  className={`w-full flex items-center gap-2 px-3 py-2 hover:bg-primary-lighter hover:bg-opacity-20 transition-colors duration-200 theme-button ${
                     currentTheme === theme.name ? 'bg-primary-lighter bg-opacity-30' : ''
                   }`}
                 >
@@ -242,7 +226,7 @@ export default function ThemeSelector() {
                     className="w-3 h-3 rounded-full" 
                     style={{ backgroundColor: theme.primary }}
                   ></div>
-                  <span className="text-lg text-primary-400 text-glow">{theme.name}</span>
+                  <span className="text-lg text-primary-400 text-glow text-glow-hover">{theme.name}</span>
                 </button>
             ))}
           </div>

@@ -59,7 +59,7 @@ export default function LatestCommit({ isMobile = false }: LatestCommitProps) {
                   href={commit.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary-400 hover:text-primary-300 underline text-glow transition-colors duration-200 text-glow-more"
+                  className="text-primary-400 hover:text-primary-300 underline text-glow text-glow-hover transition-colors duration-200"
                 >
                   {commit.sha}
                 </a>

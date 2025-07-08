@@ -66,44 +66,44 @@ export default function Terminal({}: TerminalProps) {
       </div>
       
       <div className="text-primary-400 font-vt323 space-y-2">
-        <div className="text-glow text-lg lg:text-2xl retro-hover">
+        <div className="text-glow text-lg lg:text-2xl">
           <a 
             href="https://github.com/romii0x" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="block text-primary-400 hover:text-primary-300 transition-colors duration-200"
+            className="inline text-primary-400 hover:text-primary-300 transition-colors duration-200"
           >
-            <span className="text-primary-500">{'>>'}</span> <span className="text-glow-more">GitHub</span>
+            <span className="text-primary-500">{'>>'}</span> <span className="text-glow-hover">GitHub</span>
           </a>
         </div>
-        <div className="text-glow text-lg lg:text-2xl retro-hover">
+        <div className="text-glow text-lg lg:text-2xl">
           <a 
             href="https://www.linkedin.com/in/ian-shapiro-dev/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="block text-primary-400 hover:text-primary-300 transition-colors duration-200"
+            className="inline text-primary-400 hover:text-primary-300 transition-colors duration-200"
           >
-            <span className="text-primary-500">{'>>'}</span> <span className="text-glow-more">LinkedIn</span>
+            <span className="text-primary-500">{'>>'}</span> <span className="text-glow-hover">LinkedIn</span>
           </a>
         </div>
-        <div className="text-glow text-lg lg:text-2xl retro-hover">
+        <div className="text-glow text-lg lg:text-2xl">
           <a 
             href="mailto:ianshapiro1@gmail.com" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="block text-primary-400 hover:text-primary-300 transition-colors duration-200"
+            className="inline text-primary-400 hover:text-primary-300 transition-colors duration-200"
           >
-            <span className="text-primary-500">{'>>'}</span> <span className="text-glow-more">Email</span>
+            <span className="text-primary-500">{'>>'}</span> <span className="text-glow-hover">Email</span>
           </a>
         </div>
-        <div className="text-glow text-lg lg:text-2xl retro-hover">
+        <div className="text-glow text-lg lg:text-2xl">
           <a 
             href="https://romii0x.itch.io/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="block text-primary-400 hover:text-primary-300 transition-colors duration-200"
+            className="inline text-primary-400 hover:text-primary-300 transition-colors duration-200"
           >
-            <span className="text-primary-500">{'>>'}</span> <span className="text-glow-more">itch.io</span>
+            <span className="text-primary-500">{'>>'}</span> <span className="text-glow-hover">itch.io</span>
           </a>
         </div>
       </div>
@@ -121,7 +121,7 @@ export default function Terminal({}: TerminalProps) {
             className={`flex-1 px-3 py-1 text-base lg:text-lg transition-colors duration-200 border-r border-primary-500 ${
               activeTab === "welcome"
                 ? "text-primary-400 text-glow border-primary-400"
-                : "text-primary-500 hover:text-primary-300 text-glow text-glow-more"
+                : "text-primary-500 hover:text-primary-300 text-glow text-glow-hover"
             }`}
             style={activeTab === "welcome" ? { backgroundColor: 'var(--color-tab-active-bg)' } : {}}
           >
@@ -132,7 +132,7 @@ export default function Terminal({}: TerminalProps) {
             className={`flex-1 px-3 py-1 text-base lg:text-lg transition-colors duration-200 border-r border-primary-500 ${
               activeTab === "about"
                 ? "text-primary-400 text-glow border-primary-400"
-                : "text-primary-500 hover:text-primary-300 text-glow text-glow-more"
+                : "text-primary-500 hover:text-primary-300 text-glow text-glow-hover"
             }`}
             style={activeTab === "about" ? { backgroundColor: 'var(--color-tab-active-bg)' } : {}}
           >
@@ -143,7 +143,7 @@ export default function Terminal({}: TerminalProps) {
             className={`flex-1 px-3 py-1 text-base lg:text-lg transition-colors duration-200 ${
               activeTab === "links"
                 ? "text-primary-400 text-glow border-primary-400"
-                : "text-primary-500 hover:text-primary-300 text-glow text-glow-more"
+                : "text-primary-500 hover:text-primary-300 text-glow text-glow-hover"
             }`}
             style={activeTab === "links" ? { backgroundColor: 'var(--color-tab-active-bg)' } : {}}
           >

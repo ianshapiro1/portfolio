@@ -130,19 +130,26 @@ body::after {
 /* CRT style borders */
 .crt-curve {
   box-shadow: 
-    inset 0 0 20px var(--color-crt-border),
-    0 0 20px var(--color-crt-border),
-    0 0 40px var(--color-crt-shadow);
+    inset 0 0 12px var(--color-crt-border),
+    0 0 12px var(--color-crt-border),
+    0 0 24px var(--color-crt-shadow);
   position: relative;
 }
 
-/* enhanced text glow */
-.text-glow-more:hover,
-.retro-hover:hover .text-glow-more {
+/* text glow on hover */
+.text-glow-hover:hover {
   text-shadow: 
-    0 0 8px var(--color-glow-full),
-    0 0 15px var(--color-glow-intense),
-    0 0 20px var(--color-glow-strong) !important;
+    0 0 6px var(--color-glow-light),
+    0 0 12px var(--color-glow-medium),
+    0 0 18px var(--color-glow-strong) !important;
+}
+
+/* theme selector glow on hover */
+.theme-button:hover .text-glow-hover {
+  text-shadow: 
+    0 0 6px var(--color-glow-light),
+    0 0 12px var(--color-glow-medium),
+    0 0 18px var(--color-glow-strong) !important;
 }
 
 /* CRT noise */
@@ -191,11 +198,6 @@ body::after {
   font-family: var(--font-vt323), 'Courier New', 'Monaco', 'Menlo', monospace;
   font-weight: 400;
   letter-spacing: 0.5px;
-}
-
-.retro-hover:hover {
-  transform: translateY(-1px);
-  transition: all 0.2s ease;
 }
 
 .chart-glow {
